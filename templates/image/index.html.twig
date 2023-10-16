@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% block javascripts %}
+<script>
+var search_terms = ['apple', 'apple watch', 'apple macbook', 'apple macbook pro', 'iphone', 'iphone 12'];
+
+function autocompleteMatch(input) {
+  if (input == '') {
+    return [];
+  }
+  var reg = new RegExp(input)
+  return search_terms.filter(function(term) {
+	  if (term.match(reg)) {
+  	  return term;
+	  }
+  });
+}
+
+function showResults(val) {
+  res = document.getElementById("result");
+  res.innerHTML = '';
+  let list = '';
+  let terms = autocompleteMatch(val);
+  for (i=0; i<terms.length; i++) {
+    list += '<li>' + terms[i] + '</li>';
+  }
+  res.innerHTML = '<ul>' + list + '</ul>';
+}
+</script>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+	<form autocomplete="off" action="{{ path('app_image')}}" method="post" enctype="multipart/form-data">
+		Select image to upload:
+		<input required type="file" name="fileToUpload" id="fileToUpload">
+		<input type="text" name="q" id="q" onKeyUp="showResults(this.value)" />
+        <div id="result"></div>
+		<input type="submit" value="Upload Image" name="submit">
+	</form>
+{% endblock %}
+
