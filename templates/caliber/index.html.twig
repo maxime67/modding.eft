@@ -5,13 +5,22 @@
 
 {% block body %}
 	{% for weapon in weapons_list %}
-		<div class="card" style="width:30rem">
-			<img class="card-img-top" src="{{ weapon.url }}" alt="Card image cap">
-			<div class="card-body">
-				<h5 class="card-title">{{ weapon.name }}</h5>
-                <a href="{{ path('app_add_image',{ 'weapon_id': weapon.id })}}">
-                <img src="{{ asset('new.png') }}" width='30px'>
-                </a>
+		<div class="container-1">
+			<div class="card" style="width:30rem">
+			{# add href to LIST #}
+			<a href="">
+				<img class="card-img-top" src="{{ weapon.url }}" alt="Card image cap">
+				</a>
+				<div class="card-body">
+					<h5 class="card-title">{{ weapon.name }}</h5>
+					<a href="{{ path('app_add_image',{ 'weapon_id': weapon.id })}}">
+						<img src="{{ asset('new.png') }}" width='30px'>
+					</a>
+					{# add href to LIST #}
+					<a style="text-align: right" href="{{ path('app_list_image',{ 'weapon_id': weapon.id })}}">
+					<img width="40px" src="{{ asset('list.png') }}">
+					</a>
+				</div>
 			</div>
 		</div>
 	{% endfor %}

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ListImageController!
+{% endblock %}
+
+{% block body %}
+	{% for image in ImagesList %}
+		<div class="container-1">
+			<div
+				class="card" style="width:30rem">
+				<a href="">
+					<img class="card-img-top" src="{{ asset(image.url) }}" alt="Card image cap">
+				</a>
+				<div class="card-body">
+					<h5 class="card-title">Nb UpVote / Nb DonwVote</h5>
+				</div>
+			</div>
+			</div>
+
+		{% endfor %}
+	{% endblock %}
+
