@@ -9,9 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
-
-use App\Service\FileUploader;
-
 use App\Entity\Weapon;
 use App\Repository\WeaponRepository;
 use App\Entity\Image;
@@ -25,41 +22,37 @@ use Doctrine\ORM\EntityManagerInterface;
 class ImageController extends AbstractController
 {
     #[Route('/image/{weapon_id}', name: 'app_image')]
-    public function index(EntityManagerInterface $entityManager,CaliberRepository $caliberRepository): Response
+    public function index(int $weapon_id, EntityManagerInterface $entityManager, CaliberRepository $caliberRepository, WeaponRepository $weaponRepository): Response
     {
         return $this->render('image/index.html.twig', [
             'caliber_list' => $caliberRepository->findAll(),
+            'weapon' => $weaponRepository->find($weapon_id),
         ]);
     }
 
     #[Route('/image/add/{weapon_id}', name: 'app_image_add')]
-    public function AddImage(EntityManagerInterface $entityManager,WeaponRepository $weaponRepository, int $weapon_id)
+    public function AddImage(EntityManagerInterface $entityManager, WeaponRepository $weaponRepository, int $weapon_id)
     {
-        $target_dir = "../public/images/";
+        $target_dir = "../public/";
         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        $ext = explode('/', $_FILES["fileToUpload"]["name"])[0];
+        $name = rand().".".$imageFileType;
+
         $image = new Image();
-        $image->setUrl($_FILES["fileToUpload"]["name"]);
+        $image->setUrl($name);
         $image->setWeapon($weaponRepository->find($weapon_id));
+
 
         // Check if image file is a actual image or fake image
         // if (isset($_POST["submit"])) {
-        //     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-        //     if ($check !== false) {
-        //         $uploadOk = 1;
-        //     } else {
-        //         $uploadOk = 0;
-        //         return $this->render('home/index.html.twig', [ 
-        //         ]);
-        //     }
+        // dd($_FILES["fileToUpload"]["name"]);
+        // $check = getimagesize($_FILES["fileToUpload"]["name"]);
+        // if ($check !== false) {
+        //     $uploadOk = 1;
+        // } else {
+        //     return $this->redirectToRoute('app_home');
         // }
-
-        // Check if file already exists
-        // if (file_exists($target_file)) {
-        //     dd($_FILES["fileToUpload"]["name"]);
-        //     rename('../public/images'.$_FILES["fileToUpload"]["name"], rand() . $ext);
         // }
         // Check file size
         // if ($_FILES["fileToUpload"]["size"] > 500000) {
@@ -86,12 +79,13 @@ class ImageController extends AbstractController
             // if everything is ok, try to upload file
         } else {
             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                rename('../public/' . $_FILES["fileToUpload"]["name"], $name);
                 $entityManager->persist($image);
                 $entityManager->flush();
                 // dd("SUCCES");
                 return $this->redirectToRoute('app_home');
             } else {
-                dd('error');
+                dd("c'est chiant");
                 return $this->redirectToRoute('app_home');
             }
         }

@@ -8,7 +8,7 @@
 		<div class="container-1">
 			<div class="card" style="width:30rem">
 			{# add href to LIST #}
-			<a href="">
+			<a href="{{ path('app_list_image',{ 'weapon_id': weapon.id })}}">
 				<img class="card-img-top" src="{{ weapon.url }}" alt="Card image cap">
 				</a>
 				<div class="card-body">
