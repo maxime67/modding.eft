@@ -6,17 +6,31 @@
 {% block body %}
 	{% for image in ImagesList %}
 		<div class="container-1">
-			<div
-				class="card" style="width:30rem">
-				<a href="">
-					<img class="card-img-top" src="{{ asset(image.url) }}" alt="Card image cap">
-				</a>
+			<div class="card" style="width:30rem">
+				<img class="card-img-top myModal" id="{{ image.id }}" src="{{ asset(image.url) }}" onclick="enlargeImg()" alt="Card image cap">
 				<div class="card-body">
 					<h5 class="card-title">Nb UpVote / Nb DonwVote</h5>
 				</div>
 			</div>
-			</div>
-
-		{% endfor %}
-	{% endblock %}
+		</div>
+				<script>
+			// Get the img object using its Id
+			img = document.getElementById({{ image.id }});
+			// Function to increase image size
+			function enlargeImg() { // Set image size to 1.5 times original
+			var i = 1;
+			img.style.transform = "scale(3.5)";
+			// Animation effect
+			img.style.transition = "transform 0.25s ease";
+			}
+			// Function to reset image size
+			if(i = 1)
+			function resetImg() { // Set image size to original
+			var i = 0;
+				img.style.transform = "scale(1)";
+				img.style.transition = "transform 0.25s ease";
+			}
+		</script>
+	{% endfor %}
+{% endblock %}
 
