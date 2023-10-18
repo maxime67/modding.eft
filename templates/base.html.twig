@@ -15,15 +15,16 @@
 		{% endblock %}
 	</head>
 	<body></body>
-	<div class="container">
-	{# NAVBAR #}
-	<nav class="navbarcolor navbar">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#">
-				<img src="{{asset('logo.png')}}" height="200px" alt="Logo" class="d-inline-block align-text-top">
+	<div
+		class="container">
+		{# NAVBAR #}
+		<nav class="navbarcolor navbar">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">
+					<img src="{{asset('logo.png')}}" height="200px" alt="Logo" class="d-inline-block align-text-top">
 				</div>
-				</nav>
-				<nav class="navbarcolor navbar">
+			</nav>
+			<nav class="navbarcolor navbar">
 				{% for caliber in caliber_list %}
 					<div style=" padding: 5px">
 						<a href="{{ path('app_caliber',{ 'caliber_id': caliber.id })}}">
@@ -31,11 +32,22 @@
 						</a>
 					</div>
 				{% endfor %}
-				</nav>
-			</a>
-	</nav>
- {% block body %}{% endblock %}
+			</nav>
+			<br>
+			<br>
+			<nav class="navbarcolor navbar">
+				{% for weapon in most_playable %}
+					<div style=" padding: 5px">
+						<a href="{{ path('app_list_image',{ 'weapon_id': weapon.id })}}">
+							<button class="button-18" type="button">{{ weapon.name }}</button>
+						</a>
+					</div>
+				{% endfor %}
+			</nav>
 
-		</html>
-	</html>
+		</a>
+	</nav>
+	{% block body %}{% endblock %}
+
+</html></html>
 

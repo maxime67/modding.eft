@@ -27,6 +27,7 @@ class ImageController extends AbstractController
         return $this->render('image/index.html.twig', [
             'caliber_list' => $caliberRepository->findAll(),
             'weapon' => $weaponRepository->find($weapon_id),
+            'most_playable' => $weaponRepository->findMostPlayable(),
         ]);
     }
 

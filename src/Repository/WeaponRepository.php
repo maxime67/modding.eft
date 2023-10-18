@@ -34,6 +34,22 @@ class WeaponRepository extends ServiceEntityRepository
        ;
    }
 
+   public function findMostPlayable(): array
+   {
+       return $this->createQueryBuilder('w')
+           ->Where("w.name IN ('M4A1',
+           'AK-101',
+           'SR-25',
+           'VSS Vintorez',
+           'DT MDR 5.56x45',
+           'MK47',
+           'RD704',
+           'RSASS')")
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
 //    public function findOneBySomeField($value): ?Weapon
 //    {
 //        return $this->createQueryBuilder('w')
