@@ -4,33 +4,34 @@
 {% endblock %}
 
 {% block body %}
+<br>
+		<div style="text-align: center">
+		<a href="{{ path('app_product_new',{ 'weapon_id': weapon.id })}}">
+			<button class="button-17">Add new {{ weapon.name }} mod
+			</button>
+			</a>
+		</div>
+		<br>
 	{% for image in ImagesList %}
 		<div class="container-1">
 			<div class="card" style="width:30rem">
-				<img class="card-img-top myModal" id="{{ image.id }}" src="{{ asset(image.url) }}" onclick="enlargeImg()" alt="Card image cap">
+				<a href="{{ path('app_image_one',{ 'image_id': image.id })}}">
+					<img class="card-img-top myModal" id="{{ image.id }}" src="{{ asset('mod/'~ image.url) }}" alt="Card image cap">
+				</a>
 				<div class="card-body">
-					<h5 class="card-title">Nb UpVote / Nb DonwVote</h5>
+					{% set foo = 0 %}
+					{% if image.getVotes | length > 0  %}
+						{% for vote in image.getVotes %}
+							{% if vote.isType != 0 %}
+								{% set foo =  foo + 1 %}
+							{% endif %}
+						{% endfor %}
+						<button class="button-18">{{ (foo / image.getVotes|length) * 100 | round(1,'floor')}}
+							%</button>
+					{% endif %}
 				</div>
 			</div>
 		</div>
-				<script>
-			// Get the img object using its Id
-			img = document.getElementById({{ image.id }});
-			// Function to increase image size
-			function enlargeImg() { // Set image size to 1.5 times original
-			var i = 1;
-			img.style.transform = "scale(3.5)";
-			// Animation effect
-			img.style.transition = "transform 0.25s ease";
-			}
-			// Function to reset image size
-			if(i = 1)
-			function resetImg() { // Set image size to original
-			var i = 0;
-				img.style.transform = "scale(1)";
-				img.style.transition = "transform 0.25s ease";
-			}
-		</script>
 	{% endfor %}
 {% endblock %}
 

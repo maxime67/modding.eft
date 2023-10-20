@@ -14,11 +14,11 @@
 				<div class="card-body">
 					<h5 class="card-title">{{ weapon.name }}</h5>
 					<a href="{{ path('app_image',{ 'weapon_id': weapon.id })}}">
-						<img src="{{ asset('new.png') }}" width='30px'>
+						<img src="{{ asset('assets/new.png') }}" width='30px'>
 					</a>
 					{# add href to LIST #}
 					<a style="text-align: right" href="{{ path('app_list_image',{ 'weapon_id': weapon.id })}}">
-					<img width="40px" src="{{ asset('list.png') }}">
+					<img width="40px" src="{{ asset('assets/list.png') }}">
 					</a>
 				</div>
 			</div>

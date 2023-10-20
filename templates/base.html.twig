@@ -22,7 +22,7 @@
 		<nav class="navbarcolor navbar">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="{{ path("app_home")}}">
-					<img src="{{asset('logo.png')}}" height="200px" alt="Logo" class="d-inline-block align-text-top">
+					<img src="{{asset('assets/logo.png')}}" height="200px" alt="Logo" class="d-inline-block align-text-top">
 					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 					<div style=" padding: 5px">
 						<a href="{{ path('app_logout')}}">

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ListImageController!
+{% endblock %}
+
+{% block body %}
+	<script>
+		const btn = document.getElementById("test");
+btn.addEventListener("click", openTab());
+
+function openTab() {
+window.open("https://www.educative.io/", "_blank");
+}
+	</script>
+    <br>
+	<div style="text-align: center">
+    <a href="{{ path('app_product_new',{ 'weapon_id': weapon.id })}}">
+		<button class="button-17">Add new
+			{{ weapon.name }}
+			mod
+		</button>
+        </a>
+	</div>
+    <br>
+	<div class="container-1">
+		<div class="card">
+			<img class="card-img-top myModal" id="test" src="{{ asset("mod/"~ image.url) }}" alt="Card image cap">
+			<div class="card-body">
+				{% set foo = 0 %}
+				{% if image.getVotes | length > 0  %}
+					{% for vote in image.getVotes %}
+						{% if vote.isType != 0 %}
+							{% set foo =  foo + 1 %}
+						{% endif %}
+					{% endfor %}
+					<button class="button-18">{{ (foo / image.getVotes|length) * 100 | round(1,'floor')}}
+						%</button>
+				{% endif %}
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+					<a style="text-decoration: none" href="{{ path('app_upvote',{ 'image_id': image.id })}}">
+						<img src="{{ asset('assets/up.png')}}" alt="" width="30px">
+					</a>
+					<a style="text-decoration: none" href="{{ path('app_downvote',{ 'image_id': image.id })}}">
+						<img src="{{ asset('assets/down.png')}}" alt="" width="30px">
+					</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+

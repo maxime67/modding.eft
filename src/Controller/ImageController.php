@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\ImageType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,12 +16,67 @@ use App\Entity\Image;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Repository\CaliberRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+
+
 
 
 
 
 class ImageController extends AbstractController
 {
+    #[Route('/image/new/{weapon_id}', name: 'app_product_new')]
+    public function new(Int $weapon_id, EntityManagerInterface $entity, WeaponRepository $weaponRepository, CaliberRepository $caliberRepository, Request $request, SluggerInterface $slugger): Response
+    {
+        $image = new Image();
+        $form = $this->createForm(ImageType::class, $image);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $imagefile */
+            $imagefile = $form->get('image')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($imagefile) {
+                $originalFilename = pathinfo($imagefile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imagefile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $imagefile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    dd($e->getMessage());
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $image->setUrl($newFilename);
+            }
+            $image = new Image();
+            $image->setUrl($newFilename);
+            $image->setUser($this->getUser());
+            $image->setWeapon($weaponRepository->findOneBy(['id'=> $weapon_id]));
+
+            $entity->persist($image);
+            $entity->flush();
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('image/new.html.twig', [
+            'form' => $form,
+            'caliber_list' => $caliberRepository->findAll(),
+            'most_playable' => $weaponRepository->findMostPlayable(),
+        ]);
+    }
+
     #[Route('/image/{weapon_id}', name: 'app_image')]
     public function index(int $weapon_id, EntityManagerInterface $entityManager, CaliberRepository $caliberRepository, WeaponRepository $weaponRepository): Response
     {
@@ -29,66 +85,5 @@ class ImageController extends AbstractController
             'weapon' => $weaponRepository->find($weapon_id),
             'most_playable' => $weaponRepository->findMostPlayable(),
         ]);
-    }
-
-    #[Route('/image/add/{weapon_id}', name: 'app_image_add')]
-    public function AddImage(EntityManagerInterface $entityManager, WeaponRepository $weaponRepository, int $weapon_id)
-    {
-        $target_dir = "../public/";
-        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        $name = rand().".".$imageFileType;
-
-        $image = new Image();
-        $image->setUrl($name);
-        $image->setWeapon($weaponRepository->find($weapon_id));
-
-
-        // Check if image file is a actual image or fake image
-        // if (isset($_POST["submit"])) {
-        // dd($_FILES["fileToUpload"]["name"]);
-        // $check = getimagesize($_FILES["fileToUpload"]["name"]);
-        // if ($check !== false) {
-        //     $uploadOk = 1;
-        // } else {
-        //     return $this->redirectToRoute('app_home');
-        // }
-        // }
-        // Check file size
-        // if ($_FILES["fileToUpload"]["size"] > 500000) {
-        //     $uploadOk = 0;
-        // } else {
-        //     return $this->render('home/index.html.twig', [
-        //         'error_message' => "Fichier trop volumineux",
-        //     ]);
-        // }
-
-        // Allow certain file formats
-        if (
-            $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-        ) {
-            $uploadOk = 0;
-            dd("format error");
-            return $this->render('home/index.html.twig', [
-                'error_message' => "Seul les format jpg,png,jpeg sont acceptés",
-            ]);
-        }
-
-        // Check if $uploadOk is set to 0 by an error
-        if ($uploadOk == 0) {
-            // if everything is ok, try to upload file
-        } else {
-            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                rename('../public/' . $_FILES["fileToUpload"]["name"], $name);
-                $entityManager->persist($image);
-                $entityManager->flush();
-                // dd("SUCCES");
-                return $this->redirectToRoute('app_home');
-            } else {
-                dd("c'est chiant");
-                return $this->redirectToRoute('app_home');
-            }
-        }
     }
 }

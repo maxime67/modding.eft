@@ -13,6 +13,7 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'app_home')]
     public function index(WeaponRepository $weaponRepository, CaliberRepository $caliberRepository): Response
     {
+        // dd(phpinfo());
         return $this->render('home/index.html.twig', [
             'caliber_list' => $caliberRepository->findAll(),
             'most_playable' => $weaponRepository->findMostPlayable(),
