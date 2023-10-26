@@ -69,6 +69,7 @@ class ImageController extends AbstractController
             $entity->flush();
             return $this->redirectToRoute('app_home');
         }
+        // dd($form);
 
         return $this->render('image/new.html.twig', [
             'form' => $form,

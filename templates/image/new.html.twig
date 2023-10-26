@@ -5,9 +5,28 @@
 {% endblock %}
 
 {% block body %}
+<br>
 {{ form_start(form) }}
-    {{ form_row(form.image) }}
-{{ form_end(form) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+
+        <input
+            name="{{ field_name(form.image) }}"
+            value="{{ field_value(form.image) }}"
+            placeholder="Import"
+            class="button-27 form"
+            type="file"
+        >
+    {# </div> #}
+
+        <br>
+        <button type="submit" class="button-18" >
+        Submit
+            {# {{ form_row(form.save) }} #}
+        </button>
+    </div>
+{# {{ form_end(form) }} #}
 
 {% endblock %}
 

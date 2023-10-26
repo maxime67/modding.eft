@@ -19,7 +19,7 @@ class ImageType extends AbstractType
         $builder
             // ...
             ->add('image', FileType::class, [
-                'label' => 'Image To Upload',
+                'label' => 'Import',
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
@@ -27,6 +27,9 @@ class ImageType extends AbstractType
                 // make it optional so you don't have to re-upload the PDF file
                 // every time you edit the Product details
                 'required' => true,
+                'attr' => [
+                    "class"=>"button-27"
+                ],
 
                 // unmapped fields can't define their validation using annotations
                 // in the associated entity, so you can use the PHP constraint classes
@@ -40,8 +43,11 @@ class ImageType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid pdf,png,jpg document',
                     ])
                 ],
-            ])
-            ->add('save', SubmitType::class, ['label' => 'Add new Weapon']);
+            ]);
+            // ->add('save', SubmitType::class, [
+            //     'label' => 'Add new Weapon',
+            //     'attr' => ['class' => "button-14"],
+            // ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
