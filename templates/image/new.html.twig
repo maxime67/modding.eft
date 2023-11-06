@@ -8,9 +8,7 @@
 <br>
 {{ form_start(form) }}
     <div class="my-custom-class-for-errors">
-        {{ form_errors(form) }}
     </div>
-
         <input
             name="{{ field_name(form.image) }}"
             value="{{ field_value(form.image) }}"
@@ -18,14 +16,12 @@
             class="button-27 form"
             type="file"
         >
-    {# </div> #}
 
         <br>
         <button type="submit" class="button-18" >
         Submit
         </button>
     </div>
-{{ form_end(form) }}
 
 {% endblock %}
 

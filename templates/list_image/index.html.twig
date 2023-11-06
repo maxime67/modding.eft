@@ -19,7 +19,10 @@
 					<img class="card-img-top myModal" id="{{ image.id }}" src="{{ asset('mod/'~ image.url) }}" alt="Card image cap">
 				</a>
 				<div class="card-body">
+								<a style="text-decoration: none;" href="{{ path('app_user',{ 'uuid': image.getUser.getUuid })}}"
 							<button class="button-18">{{ image.getUser.getUuid}}
+				</a>
+
 				</div>
 			</div>
 		</div>

@@ -36,6 +36,8 @@ security:
     access_control:
         - { path: ^/image, roles: ROLE_USER }
         - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/edit/profil, roles: ROLE_USER }
+
         # - { path: ^/profile, roles: ROLE_USER }
 # 
 when@test:

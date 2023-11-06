@@ -11,11 +11,13 @@
 	{{ form_start(registrationForm) }}
 
 	<input name="{{ field_name(registrationForm.uuid) }}" placeholder="User Name" class="form-control">
-    <br>
+	<br>
+	<br>
     <input name="{{ field_name(registrationForm.plainPassword) }}" placeholder="Password" class="form-control">
-        <br>
-	{{ form_row(registrationForm.agreeTerms) }}
-
+	<small class="form-text text-muted">You won't be able to change it after</small>
+	<br>
+	<input name="{{ field_name(registrationForm.plainPassword) }}" placeholder="Confirm Password" class="form-control">
+	<br>
 	<button type="submit" class="button-18">Register</button>
 	{{ form_end(registrationForm) }}
 {% endblock %}
