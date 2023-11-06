@@ -14,21 +14,12 @@
 		<br>
 	{% for image in ImagesList %}
 		<div class="container-1">
-			<div class="card" style="width:30rem">
+			<div class="card" style="width:55rem">
 				<a href="{{ path('app_image_one',{ 'image_id': image.id })}}">
 					<img class="card-img-top myModal" id="{{ image.id }}" src="{{ asset('mod/'~ image.url) }}" alt="Card image cap">
 				</a>
 				<div class="card-body">
-					{% set foo = 0 %}
-					{% if image.getVotes | length > 0  %}
-						{% for vote in image.getVotes %}
-							{% if vote.isType != 0 %}
-								{% set foo =  foo + 1 %}
-							{% endif %}
-						{% endfor %}
-						<button class="button-18">{{ (foo / image.getVotes|length) * 100 | round(1,'floor')}}
-							%</button>
-					{% endif %}
+							<button class="button-18">{{ image.getUser.getUuid}}
 				</div>
 			</div>
 		</div>
