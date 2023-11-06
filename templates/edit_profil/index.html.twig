@@ -1,0 +1,24 @@
+{% extends 'base.registration.html.twig' %}
+
+{% block title %}Hello EditProfilController!{% endblock %}
+
+{% block body %}
+    <h1>Edit Profil</h1>
+    {{ form_errors(form) }}
+
+    {{ form_start(form) }}
+    {#    INPUT TYPE FILE FOR AVATAR ICON #}
+    {#    INPUT TYPE FILE FOR AVATAR ICON #}
+    {#    INPUT TYPE FILE FOR AVATAR ICON #}
+    {#    INPUT TYPE FILE FOR AVATAR ICON #}
+{#    <input name="{{ field_name(form.uuid) }}" placeholder="User Name" class="form-control">#}
+{#    <br>#}
+    <label>
+        <input name="{{ field_name(form.uuid) }}" placeholder="User Name" class="form-control">
+    </label>
+    <br>
+    <br>
+
+    <button type="submit" class="button-18">Save</button>
+    {{ form_end(form) }}
+{% endblock %}
