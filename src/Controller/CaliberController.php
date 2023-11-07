@@ -16,6 +16,7 @@ class CaliberController extends AbstractController
     public function index(String $caliber_id, CaliberRepository $caliberRepository,WeaponRepository $weaponRepository): Response
     {
         return $this->render('caliber/index.html.twig', [
+            'user' => $this->getUser(),
             'controller_name' => 'CaliberController',
             'caliber_list' => $caliberRepository->findAll(),
             'weapons_list' => $weaponRepository->findByCaliber($caliber_id),

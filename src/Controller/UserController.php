@@ -21,7 +21,7 @@ class UserController extends AbstractController
             'userWeapons' => $user->getImages(),
             'caliber_list' => $caliberRepository->findAll(),
             'most_playable' => $weaponRepository->findMostPlayable(),
-            'User' => $user,
+            'user' => $user,
         ]);
     }
 }

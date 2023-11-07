@@ -72,6 +72,8 @@ class ImageController extends AbstractController
         // dd($form);
 
         return $this->render('image/new.html.twig', [
+            'weapon' => $weaponRepository->find($weapon_id),
+            'user' => $this->getUser(),
             'form' => $form,
             'caliber_list' => $caliberRepository->findAll(),
             'most_playable' => $weaponRepository->findMostPlayable(),
@@ -82,6 +84,7 @@ class ImageController extends AbstractController
     public function index(int $weapon_id, EntityManagerInterface $entityManager, CaliberRepository $caliberRepository, WeaponRepository $weaponRepository): Response
     {
         return $this->render('image/index.html.twig', [
+            'user' => $this->getUser(),
             'caliber_list' => $caliberRepository->findAll(),
             'weapon' => $weaponRepository->find($weapon_id),
             'most_playable' => $weaponRepository->findMostPlayable(),

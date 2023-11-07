@@ -15,6 +15,7 @@ class HomeController extends AbstractController
     {
         // dd(phpinfo());
         return $this->render('home/index.html.twig', [
+            'user' => $this->getUser(),
             'caliber_list' => $caliberRepository->findAll(),
             'most_playable' => $weaponRepository->findMostPlayable(),
         ]);
