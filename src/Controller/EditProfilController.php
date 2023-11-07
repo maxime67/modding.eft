@@ -21,13 +21,22 @@ class EditProfilController extends AbstractController
         $form = $this->createForm(EditProfilType::class, $user);
 
         $form->handleRequest($request);
+        dd($form->getData());
+
         if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
-            try{
-                $user->setUuid($form->get("uuid")->getData());
-            } catch(\Exception $e){
-                $e->getMessage();
+            if($form->get('uuid') != null && !$form->get('uuid')->isEmpty()) {
+                try {
+                    $user->setUuid($form->get("uuid")->getData());
+                } catch (\Exception $e) {
+                    $e->getMessage();
+                }
+            }
+            if($form->get('image') != null && !$form->get('uuid')->isEmpty()) {
+                try {
+                    $user->setUuid($form->get("uuid")->getData());
+                } catch (\Exception $e) {
+                    $e->getMessage();
+                }
             }
             $entityManager->persist($user);
             $entityManager->flush();
@@ -36,6 +45,7 @@ class EditProfilController extends AbstractController
         }
 //        dd($form->createView());
         return $this->render('edit_profil/index.html.twig', [
+            'user' => $this->getUser(),
             'currentUser' => $user,
             'form' => $form->createView(),
         ]);

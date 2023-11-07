@@ -26,24 +26,22 @@ window.open("https://www.educative.io/", "_blank");
 		<div class="card">
 			<img class="card-img-top myModal" id="test" src="{{ asset("mod/"~ image.url) }}" alt="Card image cap">
 			<div class="card-body">
-				{% set foo = 0 %}
-				{% if image.getVotes | length > 0  %}
-					{% for vote in image.getVotes %}
-						{% if vote.isType != 0 %}
-							{% set foo =  foo + 1 %}
-						{% endif %}
-					{% endfor %}
-					<button class="button-18">{{ (foo / image.getVotes|length) * 100 | round(1,'floor')}}
-						%</button>
-				{% endif %}
-				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-					<a style="text-decoration: none" href="{{ path('app_upvote',{ 'image_id': image.id })}}">
-						<img src="{{ asset('assets/up.png')}}" alt="" width="30px">
-					</a>
-					<a style="text-decoration: none" href="{{ path('app_downvote',{ 'image_id': image.id })}}">
-						<img src="{{ asset('assets/down.png')}}" alt="" width="30px">
-					</a>
-				{% endif %}
+				<a style="text-decoration: none;" href="{{ path('app_user',{ 'uuid': image.getUser.getUuid })}}"
+				<button class="button-18">{{ image.getUser.getUuid}}</button>
+				</a>
+				{% set foo = 0  %}
+				{% for vote in image.getVotes %}
+					{% if vote.isType %}
+						{% set foo =+ 1 %}
+					{% endif %}
+				{% endfor %}
+				{% set var = image.getVotes | length - foo %}
+				<a style="text-decoration: none" href="{{ path("app_upvote", {"image_id" : image.id}) }}"
+				<button class="button-17"> {{ foo }}<img src="{{ asset('assets/up.png') }}" height="30px"></button>
+				</a>
+				<a style="text-decoration: none"href="{{ path("app_downvote", {"image_id" : image.id}) }}"
+				<button class="button-17">{{ var }} <img src="{{ asset('assets/down.png') }}" height="30px"></button>
+				</a>
 			</div>
 		</div>
 	</div>

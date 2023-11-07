@@ -20,10 +20,22 @@
 				</a>
 				<div class="card-body">
 								<a style="text-decoration: none;" href="{{ path('app_user',{ 'uuid': image.getUser.getUuid })}}"
-							<button class="button-18">{{ image.getUser.getUuid}}
+					<button class="button-18">{{ image.getUser.getUuid}}</button>
 				</a>
-
-				</div>
+					{% set foo = 0  %}
+					{% for vote in image.getVotes %}
+						{% if vote.isType %}
+							{% set foo =+ 1 %}
+						{% endif %}
+					{% endfor %}
+					{% set var = image.getVotes | length - foo %}
+					<a style="text-decoration: none" href="{{ path("app_upvote", {"image_id" : image.id}) }}"
+					<button class="button-17"> {{ foo }}<img src="{{ asset('assets/up.png') }}" height="30px"></button>
+				</a>
+				<a style="text-decoration: none"href="{{ path("app_downvote", {"image_id" : image.id}) }}"
+				<button class="button-17">{{ var }} <img src="{{ asset('assets/down.png') }}" height="30px"></button>
+				</a>
+			</div>
 			</div>
 		</div>
 	{% endfor %}

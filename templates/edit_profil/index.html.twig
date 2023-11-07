@@ -7,15 +7,23 @@
     {{ form_errors(form) }}
 
     {{ form_start(form) }}
-    {#    INPUT TYPE FILE FOR AVATAR ICON #}
-    {#    INPUT TYPE FILE FOR AVATAR ICON #}
-    {#    INPUT TYPE FILE FOR AVATAR ICON #}
-    {#    INPUT TYPE FILE FOR AVATAR ICON #}
-{#    <input name="{{ field_name(form.uuid) }}" placeholder="User Name" class="form-control">#}
-{#    <br>#}
-    <label>
-        <input name="{{ field_name(form.uuid) }}" placeholder="User Name" class="form-control">
-    </label>
+{#    <input#}
+
+{#            value="{{ field_value(form.image) }}"#}
+{#            placeholder="Import new Avatar"#}
+{#            style="width: 200px"#}
+{#            class="btn"#}
+{#            type="file"#}
+{#    >#}
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Import new Avatar</label>
+        <input name="{{ field_name(form.image) }}" class="form-control" type="file" id="formFile">
+    </div>
+
+{#    <div class="input-group mb-3">#}
+        <label class="form-label" id="inputGroup-sizing-default">Change UserName</label>
+        <input name="{{ field_name(form.uuid) }}" type="text" placeholder="{{ user.uuid }}" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+{#    </div>#}
     <br>
     <br>
 

@@ -37,6 +37,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Image::class)]
     private Collection $images;
 
+    #[ORM\Column(length: 255)]
+    private ?string $urlAvatar = null;
+
     public function __construct()
     {
         $this->votes = new ArrayCollection();
@@ -169,6 +172,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $image->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUrlAvatar(): ?string
+    {
+        return $this->urlAvatar;
+    }
+
+    public function setUrlAvatar(string $urlAvatar): static
+    {
+        $this->urlAvatar = $urlAvatar;
 
         return $this;
     }

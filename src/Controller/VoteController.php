@@ -33,9 +33,9 @@ class VoteController extends AbstractController
             $entity->persist($vote);
             $entity->flush();
         } else {
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_image_one', ["image_id" => $image_id]);
         }
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('app_image_one', ["image_id" => $image_id]);
     }
 
     #[Route('/add/downvote/{image_id}', name: 'app_downvote')]
@@ -54,8 +54,8 @@ class VoteController extends AbstractController
             $entity->persist($vote);
             $entity->flush();
         } else {
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_image_one', ["image_id" => $image_id]);
         }
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('app_image_one', ["image_id" => $image_id]);
     }
 }
